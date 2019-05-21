@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- =============================================================== -->
+    <!-- Parent Project -->
+    <!-- =============================================================== -->
+    <parent>
+        <artifactId>librarymanager</artifactId>
+        <groupId>com.antazri</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
+
+    <artifactId>webservice</artifactId>
+
+    <name>webservice</name>
+    <url>http://librarymanager.gouv.fr</url>
+
+    <!-- =============================================================== -->
+    <!-- Properties -->
+    <!-- =============================================================== -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <!-- =============================================================== -->
+    <!-- Dependencies -->
+    <!-- =============================================================== -->
+    <dependencies>
+        <!-- Modules dependencies -->
+        <dependency>
+            <groupId>com.antazri</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.antazri</groupId>
+            <artifactId>business</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.antazri</groupId>
+            <artifactId>technical</artifactId>
+        </dependency>
+
+        <!-- Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
+        <!-- Apache CXF dependencies -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+
+        <!-- Servlet API dependency -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- Apache Commons dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- JUnit dependency -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <!-- JBCrypt dependency -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- =============================================================== -->
+    <!-- Build & Plugins -->
+    <!-- =============================================================== -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${basedir}/src/main/java/</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/authenticationService.wsdl</wsdl>
+                                    <serviceName>AuthenticationServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/authorManagementService.wsdl</wsdl>
+                                    <serviceName>AuthorManagementServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/bookManagementService.wsdl</wsdl>
+                                    <serviceName>BookManagementServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/categoryManagementService.wsdl</wsdl>
+                                    <serviceName>CategoryManagementServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/loanManagementService.wsdl</wsdl>
+                                    <serviceName>LoanManagementServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/memberManagementService.wsdl</wsdl>
+                                    <serviceName>MemberManagementServiceEndPoint</serviceName>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/com/antazri/webservice/wsdl/reminder.wsdl</wsdl>
+                                    <serviceName>ReminderServiceEndPoint</serviceName>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

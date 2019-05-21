@@ -1,0 +1,239 @@
+<definitions name="CategoryManagement" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:category="http://www.antazri.com/generated/category"
+             targetNamespace="http://www.antazri.com/generated/category">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/category" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/category.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="findByIdRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="categories" type="category:category" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addCategoryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateCategoryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="category:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteCategoryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="deleted" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="category:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="findById">
+        <part name="parameters" element="category:findByIdRequest" />
+    </message>
+    <message name="findByIdResult">
+        <part name="return" element="category:findByIdResponse" />
+    </message>
+    <message name="findAll">
+        <part name="parameters" element="category:findAllRequest" />
+    </message>
+    <message name="findAllResult">
+        <part name="return" element="category:findAllResponse" />
+    </message>
+    <message name="addCategory">
+        <part name="parameters" element="category:addCategoryRequest" />
+    </message>
+    <message name="addCategoryResult">
+        <part name="return" element="category:addCategoryResponse" />
+    </message>
+    <message name="updateCategory">
+        <part name="parameters" element="category:updateCategoryRequest" />
+    </message>
+    <message name="updateCategoryResult">
+        <part name="return" element="category:updateCategoryResponse" />
+    </message>
+    <message name="deleteCategory">
+        <part name="parameters" element="category:deleteCategoryRequest" />
+    </message>
+    <message name="deleteCategoryResult">
+        <part name="return" element="category:deleteCategoryResponse" />
+    </message>
+    <message name="ConvertException">
+        <part name="fault" element="category:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="CategoryPort">
+        <operation name="findById">
+            <input message="category:findById" />
+            <output message="category:findByIdResult" />
+            <fault name="fault" message="category:ConvertException" />
+        </operation>
+        <operation name="findAll">
+            <input message="category:findAll" />
+            <output message="category:findAllResult" />
+            <fault name="fault" message="category:ConvertException" />
+        </operation>
+        <operation name="addCategory">
+            <input message="category:addCategory" />
+            <output message="category:addCategoryResult" />
+            <fault name="fault" message="category:ConvertException" />
+        </operation>
+        <operation name="updateCategory">
+            <input message="category:updateCategory" />
+            <output message="category:updateCategoryResult" />
+            <fault name="fault" message="category:ConvertException" />
+        </operation>
+        <operation name="deleteCategory">
+            <input message="category:deleteCategory" />
+            <output message="category:deleteCategoryResult" />
+            <fault name="fault" message="category:ConvertException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="CategoryBinding" type="category:CategoryPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findById">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/category/#findById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findAll">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/category/#findAll"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addCategory">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/category/#addCategory"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateCategory">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/category/#updateCategory"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteCategory">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/category/#deleteCategory"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="CategoryManagementServiceEndPoint">
+        <port name="CategoryPort" binding="category:CategoryBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/category"/>
+        </port>
+    </service>
+
+</definitions>

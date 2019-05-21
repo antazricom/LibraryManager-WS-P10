@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified" id="loan">
+    <xs:include schemaLocation="member.xsd" />
+    <xs:include schemaLocation="book.xsd" />
+
+    <xs:complexType name="loan">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int" />
+            <xs:element name="dateBegin" type="xs:date" />
+            <xs:element name="dateEnd" type="xs:date" />
+            <xs:element name="dateReturn" type="xs:date" />
+            <xs:element name="extended" type="xs:boolean" />
+            <xs:element name="returned" type="xs:boolean" />
+            <xs:element name="member" type="member" />
+            <xs:element name="book" type="book" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

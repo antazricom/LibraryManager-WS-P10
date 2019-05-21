@@ -1,0 +1,398 @@
+<definitions name="BookManagement" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:book="http://www.antazri.com/generated/book"
+             targetNamespace="http://www.antazri.com/generated/book">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/book" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/book.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="findByIdRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByAuthorRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="book:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByAuthorResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="books" type="book:book" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByCategoryRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="category" type="book:category" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByCategoryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="books" type="book:book" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByTitleRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="title" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByTitleResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="books" type="book:book" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="books" type="book:book" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="deleted" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getAvailableCopiesRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="book:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getAvailableCopiesResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="copies" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="book:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="findById">
+        <part name="parameters" element="book:findByIdRequest" />
+    </message>
+    <message name="findByIdResult">
+        <part name="return" element="book:findByIdResponse" />
+    </message>
+    <message name="findByAuthor">
+        <part name="parameters" element="book:findByAuthorRequest" />
+    </message>
+    <message name="findByAuthorResult">
+        <part name="return" element="book:findByAuthorResponse" />
+    </message>
+    <message name="findByCategory">
+        <part name="parameters" element="book:findByCategoryRequest" />
+    </message>
+    <message name="findByCategoryResult">
+        <part name="return" element="book:findByCategoryResponse" />
+    </message>
+    <message name="findByTitle">
+        <part name="parameters" element="book:findByTitleRequest" />
+    </message>
+    <message name="findByTitleResult">
+        <part name="return" element="book:findByTitleResponse" />
+    </message>
+    <message name="findAll">
+        <part name="parameters" element="book:findAllRequest" />
+    </message>
+    <message name="findAllResult">
+        <part name="return" element="book:findAllResponse" />
+    </message>
+    <message name="addBook">
+        <part name="parameters" element="book:addBookRequest" />
+    </message>
+    <message name="addBookResult">
+        <part name="return" element="book:addBookResponse" />
+    </message>
+    <message name="updateBook">
+        <part name="parameters" element="book:updateBookRequest" />
+    </message>
+    <message name="updateBookResult">
+        <part name="return" element="book:updateBookResponse" />
+    </message>
+    <message name="deleteBook">
+        <part name="parameters" element="book:deleteBookRequest" />
+    </message>
+    <message name="deleteBookResult">
+        <part name="return" element="book:deleteBookResponse" />
+    </message>
+    <message name="getAvailbleCopies">
+        <part name="parameters" element="book:getAvailableCopiesRequest" />
+    </message>
+    <message name="getAvailbleCopiesResult">
+        <part name="return" element="book:getAvailableCopiesResponse" />
+    </message>
+    <message name="ConvertException">
+        <part name="fault" element="book:exceptionFault" />
+    </message>
+    <message name="BookException">
+        <part name="fault" element="book:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="BookPort">
+        <operation name="findById">
+            <input message="book:findById" />
+            <output message="book:findByIdResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="findByAuthor">
+            <input message="book:findByAuthor" />
+            <output message="book:findByAuthorResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="findByCategory">
+            <input message="book:findByCategory" />
+            <output message="book:findByCategoryResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="findByTitle">
+            <input message="book:findByTitle" />
+            <output message="book:findByTitleResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="findAll">
+            <input message="book:findAll" />
+            <output message="book:findAllResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="addBook">
+            <input message="book:addBook" />
+            <output message="book:addBookResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="updateBook">
+            <input message="book:updateBook" />
+            <output message="book:updateBookResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="deleteBook">
+            <input message="book:deleteBook" />
+            <output message="book:deleteBookResult" />
+            <fault name="fault" message="book:ConvertException" />
+        </operation>
+        <operation name="getAvailableCopies">
+            <input message="book:getAvailbleCopies" />
+            <output message="book:getAvailbleCopiesResult" />
+            <fault name="fault" message="book:BookException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="BookBinding" type="book:BookPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findById">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#findById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByAuthor">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#findByAuthor"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByCategory">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#findByCategory"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByTitle">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#findByTitle"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findAll">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#findAll"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addBook">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#addBook"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateBook">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#updateBook"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteBook">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#deleteBook"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="getAvailableCopies">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/book/#getAvailableCopies"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="BookManagementServiceEndPoint">
+        <port name="BookPort" binding="book:BookBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/book"/>
+        </port>
+    </service>
+
+</definitions>

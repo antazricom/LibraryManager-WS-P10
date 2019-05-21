@@ -1,0 +1,239 @@
+<definitions name="AuthorManagement" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:author="http://www.antazri.com/generated/author"
+             targetNamespace="http://www.antazri.com/generated/author">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/author" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/author.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="findByIdRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="authors" type="author:author" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addAuthorRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addAuthorResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateAuthorRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateAuthorResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteAuthorRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="author" type="author:author" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteAuthorResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="deleted" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="author:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="findById">
+        <part name="parameters" element="author:findByIdRequest" />
+    </message>
+    <message name="findByIdResult">
+        <part name="return" element="author:findByIdResponse" />
+    </message>
+    <message name="findAll">
+        <part name="parameters" element="author:findAllRequest" />
+    </message>
+    <message name="findAllResult">
+        <part name="return" element="author:findAllResponse" />
+    </message>
+    <message name="addAuthor">
+        <part name="parameters" element="author:addAuthorRequest" />
+    </message>
+    <message name="addAuthorResult">
+        <part name="return" element="author:addAuthorResponse" />
+    </message>
+    <message name="updateAuthor">
+        <part name="parameters" element="author:updateAuthorRequest" />
+    </message>
+    <message name="updateAuthorResult">
+        <part name="return" element="author:updateAuthorResponse" />
+    </message>
+    <message name="deleteAuthor">
+        <part name="parameters" element="author:deleteAuthorRequest" />
+    </message>
+    <message name="deleteAuthorResult">
+        <part name="return" element="author:deleteAuthorResponse" />
+    </message>
+    <message name="ConvertException">
+        <part name="fault" element="author:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="AuthorPort">
+        <operation name="findById">
+            <input message="author:findById" />
+            <output message="author:findByIdResult" />
+            <fault name="fault" message="author:ConvertException" />
+        </operation>
+        <operation name="findAll">
+            <input message="author:findAll" />
+            <output message="author:findAllResult" />
+            <fault name="fault" message="author:ConvertException" />
+        </operation>
+        <operation name="addAuthor">
+            <input message="author:addAuthor" />
+            <output message="author:addAuthorResult" />
+            <fault name="fault" message="author:ConvertException" />
+        </operation>
+        <operation name="updateAuthor">
+            <input message="author:updateAuthor" />
+            <output message="author:updateAuthorResult" />
+            <fault name="fault" message="author:ConvertException" />
+        </operation>
+        <operation name="deleteAuthor">
+            <input message="author:deleteAuthor" />
+            <output message="author:deleteAuthorResult" />
+            <fault name="fault" message="author:ConvertException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="AuthorBinding" type="author:AuthorPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findById">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/author/#findById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findAll">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/author/#findAll"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addAuthor">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/author/#addAuthor"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateAuthor">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/author/#updateAuthor"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteAuthor">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/author/#deleteAuthor"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="AuthorManagementServiceEndPoint">
+        <port name="AuthorPort" binding="author:AuthorBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/author"/>
+        </port>
+    </service>
+
+</definitions>

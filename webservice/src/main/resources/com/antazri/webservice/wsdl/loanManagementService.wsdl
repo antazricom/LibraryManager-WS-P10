@@ -1,0 +1,489 @@
+<definitions name="LoanManagement" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:loan="http://www.antazri.com/generated/loan"
+             targetNamespace="http://www.antazri.com/generated/loan">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/loan" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/loan.xsd" />
+            <xs:include schemaLocation="../xsd/book.xsd" />
+            <xs:include schemaLocation="../xsd/member.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="findByIdRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="loan:book" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loans" type="loan:loan" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByMemberRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="loan:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByMemberResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loans" type="loan:loan" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loans" type="loan:loan" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addLoanRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addLoanResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateLoanRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateLoanResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteLoanRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteLoanResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="deleted" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="returnLoanRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="returnLoanResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="extendLoanRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="extendLoanResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getStatusRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getStatusResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="status" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="isEndingRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="isEndingResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ending" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="loan:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="findById">
+        <part name="parameters" element="loan:findByIdRequest" />
+    </message>
+    <message name="findByIdResult">
+        <part name="return" element="loan:findByIdResponse" />
+    </message>
+    <message name="findByBook">
+        <part name="parameters" element="loan:findByBookRequest" />
+    </message>
+    <message name="findByBookResult">
+        <part name="return" element="loan:findByBookResponse" />
+    </message>
+    <message name="findByMember">
+        <part name="parameters" element="loan:findByMemberRequest" />
+    </message>
+    <message name="findByMemberResult">
+        <part name="return" element="loan:findByMemberResponse" />
+    </message>
+    <message name="findAll">
+        <part name="parameters" element="loan:findAllRequest" />
+    </message>
+    <message name="findAllResult">
+        <part name="return" element="loan:findAllResponse" />
+    </message>
+    <message name="addLoan">
+        <part name="parameters" element="loan:addLoanRequest" />
+    </message>
+    <message name="addLoanResult">
+        <part name="return" element="loan:addLoanResponse" />
+    </message>
+    <message name="updateLoan">
+        <part name="parameters" element="loan:updateLoanRequest" />
+    </message>
+    <message name="updateLoanResult">
+        <part name="return" element="loan:updateLoanResponse" />
+    </message>
+    <message name="deleteLoan">
+        <part name="parameters" element="loan:deleteLoanRequest" />
+    </message>
+    <message name="deleteLoanResult">
+        <part name="return" element="loan:deleteLoanResponse" />
+    </message>
+    <message name="returnLoan">
+        <part name="parameters" element="loan:returnLoanRequest" />
+    </message>
+    <message name="returnLoanResult">
+        <part name="return" element="loan:returnLoanResponse" />
+    </message>
+    <message name="extendLoan">
+        <part name="parameters" element="loan:extendLoanRequest" />
+    </message>
+    <message name="extendLoanResult">
+        <part name="return" element="loan:extendLoanResponse" />
+    </message>
+    <message name="getStatus">
+        <part name="parameters" element="loan:getStatusRequest" />
+    </message>
+    <message name="getStatusResult">
+        <part name="return" element="loan:getStatusResponse" />
+    </message>
+    <message name="isEnding">
+        <part name="parameters" element="loan:isEndingRequest" />
+    </message>
+    <message name="isEndingResult">
+        <part name="return" element="loan:isEndingResponse" />
+    </message>
+    <message name="ConvertException">
+        <part name="fault" element="loan:exceptionFault" />
+    </message>
+    <message name="ExtendException">
+        <part name="fault" element="loan:exceptionFault" />
+    </message>
+    <message name="ReturnException">
+        <part name="fault" element="loan:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="LoanPort">
+        <operation name="findById">
+            <input message="loan:findById" />
+            <output message="loan:findByIdResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="findByBook">
+            <input message="loan:findByBook" />
+            <output message="loan:findByBookResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="findByMember">
+            <input message="loan:findByMember" />
+            <output message="loan:findByMemberResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="findAll">
+            <input message="loan:findAll" />
+            <output message="loan:findAllResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="addLoan">
+            <input message="loan:addLoan" />
+            <output message="loan:addLoanResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="updateLoan">
+            <input message="loan:updateLoan" />
+            <output message="loan:updateLoanResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="deleteLoan">
+            <input message="loan:deleteLoan" />
+            <output message="loan:deleteLoanResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="returnLoan">
+            <input message="loan:returnLoan" />
+            <output message="loan:returnLoanResult" />
+            <fault name="returnFault" message="loan:ReturnException" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="extendLoan">
+            <input message="loan:extendLoan" />
+            <output message="loan:extendLoanResult" />
+            <fault name="extendFault" message="loan:ExtendException" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="getStatus">
+            <input message="loan:getStatus" />
+            <output message="loan:getStatusResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="isEnding">
+            <input message="loan:isEnding" />
+            <output message="loan:isEndingResult" />
+            <fault name="fault" message="loan:ConvertException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="LoanBinding" type="loan:LoanPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findById">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#findById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByBook">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#findByBook"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByMember">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#findByMember"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findAll">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#findAll"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addLoan">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#addLoan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateLoan">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#updateLoan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteLoan">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#deleteLoan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="returnLoan">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#returnLoan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="returnFault">
+                <soap:fault name="returnFault" use="literal" />
+            </fault>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="extendLoan">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#extendLoan"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="extendFault">
+                <soap:fault name="extendFault" use="literal" />
+            </fault>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="getStatus">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#getStatus"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="isEnding">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#isEnding"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="LoanManagementServiceEndPoint">
+        <port name="LoanPort" binding="loan:LoanBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/loan"/>
+        </port>
+    </service>
+
+</definitions>

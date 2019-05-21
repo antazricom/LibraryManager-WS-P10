@@ -1,0 +1,87 @@
+<definitions name="Authentication" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:auth="http://www.antazri.com/generated/auth"
+             targetNamespace="http://www.antazri.com/generated/auth">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/auth" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/token.xsd" />
+            <xs:include schemaLocation="../xsd/member.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="doLoginRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="login" type="xs:string" />
+                        <xs:element name="password" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="doLoginResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="token" type="auth:token" />
+                        <xs:element name="member" type="auth:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="auth:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="doLogin">
+        <part name="parameters" element="auth:doLoginRequest" />
+    </message>
+    <message name="doLoginResult">
+        <part name="return" element="auth:doLoginResponse" />
+    </message>
+    <message name="BadLoginException">
+        <part name="fault" element="auth:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="AuthPort">
+        <operation name="doLogin">
+            <input message="auth:doLogin" />
+            <output message="auth:doLoginResult" />
+            <fault name="fault" message="auth:BadLoginException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="AuthBinding" type="auth:AuthPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="doLogin">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/auth/#doLogin"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="AuthenticationServiceEndPoint">
+        <port name="AuthPort" binding="auth:AuthBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/auth"/>
+        </port>
+    </service>
+
+</definitions>

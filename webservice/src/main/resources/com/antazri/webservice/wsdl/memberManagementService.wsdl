@@ -1,0 +1,285 @@
+<definitions name="MemberManagement" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:member="http://www.antazri.com/generated/member"
+             targetNamespace="http://www.antazri.com/generated/member">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/member" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/member.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="findByIdRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByLoginRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="login" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findByLoginResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="findAllResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="members" type="member:member" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addMemberRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="addMemberResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateMemberRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="updateMemberResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteMemberRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="member" type="member:member" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="deleteMemberResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="deleted" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="member:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="findById">
+        <part name="parameters" element="member:findByIdRequest" />
+    </message>
+    <message name="findByIdResult">
+        <part name="return" element="member:findByIdResponse" />
+    </message>
+    <message name="findByLogin">
+        <part name="parameters" element="member:findByLoginRequest" />
+    </message>
+    <message name="findByLoginResult">
+        <part name="return" element="member:findByLoginResponse" />
+    </message>
+    <message name="findAll">
+        <part name="parameters" element="member:findAllRequest" />
+    </message>
+    <message name="findAllResult">
+        <part name="return" element="member:findAllResponse" />
+    </message>
+    <message name="addMember">
+        <part name="parameters" element="member:addMemberRequest" />
+    </message>
+    <message name="addMemberResult">
+        <part name="return" element="member:addMemberResponse" />
+    </message>
+    <message name="updateMember">
+        <part name="parameters" element="member:updateMemberRequest" />
+    </message>
+    <message name="updateMemberResult">
+        <part name="return" element="member:updateMemberResponse" />
+    </message>
+    <message name="deleteMember">
+        <part name="parameters" element="member:deleteMemberRequest" />
+    </message>
+    <message name="deleteMemberResult">
+        <part name="return" element="member:deleteMemberResponse" />
+    </message>
+    <message name="ConvertException">
+        <part name="fault" element="member:exceptionFault" />
+    </message>
+    <message name="BadLoginException">
+        <part name="fault" element="member:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="MemberPort">
+        <operation name="findById">
+            <input message="member:findById" />
+            <output message="member:findByIdResult" />
+            <fault name="fault" message="member:ConvertException" />
+        </operation>
+        <operation name="findByLogin">
+            <input message="member:findByLogin" />
+            <output message="member:findByLoginResult" />
+            <fault name="convertFault" message="member:ConvertException" />
+            <fault name="badLoginFault" message="member:BadLoginException" />
+        </operation>
+        <operation name="findAll">
+            <input message="member:findAll" />
+            <output message="member:findAllResult" />
+            <fault name="fault" message="member:ConvertException" />
+        </operation>
+        <operation name="addMember">
+            <input message="member:addMember" />
+            <output message="member:addMemberResult" />
+            <fault name="fault" message="member:ConvertException" />
+        </operation>
+        <operation name="updateMember">
+            <input message="member:updateMember" />
+            <output message="member:updateMemberResult" />
+            <fault name="fault" message="member:ConvertException" />
+        </operation>
+        <operation name="deleteMember">
+            <input message="member:deleteMember" />
+            <output message="member:deleteMemberResult" />
+            <fault name="fault" message="member:ConvertException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="MemberBinding" type="member:MemberPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findById">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#findById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findByLogin">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#findByLogin"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="convertFault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+            <fault name="badLoginFault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="findAll">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#findAll"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="addMember">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#addMember"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="updateMember">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#updateMember"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+        <operation name="deleteMember">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/member/#deleteMember"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="MemberManagementServiceEndPoint">
+        <port name="MemberPort" binding="member:MemberBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/member"/>
+        </port>
+    </service>
+
+</definitions>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:property="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="com.antazri.dao" />
+
+    <!-- =============================================================== -->
+    <!-- Configuration de la DataSource -->
+    <!-- =============================================================== -->
+    <bean id="dataSourceConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:com/antazri/data/db.properties"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSourceFactory"
+          factory-method="createDataSource"
+          destroy-method="close">
+        <constructor-arg ref="dataSourceConfig"/>
+    </bean>
+
+    <!-- =============================================================== -->
+    <!-- Configuration de EntityManager (JPA/Hibernate) -->
+    <!-- =============================================================== -->
+    <context:property-placeholder location="classpath:com/antazri/data/db.properties" />
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan">
+            <list>
+                <value>com.antazri.model</value>
+            </list>
+        </property>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="${adapter.jdbc.database}" />
+                <property name="showSql" value="${adapter.jdbc.showSql}" />
+                <property name="generateDdl" value="${adapter.jdbc.generateDdl}" />
+                <property name="databasePlatform" value="${adapter.jdbc.databasePlatform}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- =============================================================== -->
+    <!-- Configuration des beans -->
+    <!-- =============================================================== -->
+    <bean id="authorDao" class="com.antazri.dao.impl.AuthorDao" scope="prototype" />
+    <bean id="bookDao" class="com.antazri.dao.impl.BookDao" scope="prototype" />
+    <bean id="categoryDao" class="com.antazri.dao.impl.CategoryDao" scope="prototype" />
+    <bean id="loanDao" class="com.antazri.dao.impl.LoanDao" scope="prototype" />
+    <bean id="memberDao" class="com.antazri.dao.impl.MemberDao" scope="prototype" />
+
+</beans>

@@ -1,0 +1,85 @@
+<definitions name="Reminder" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:batch="http://www.antazri.com/generated/batch"
+             targetNamespace="http://www.antazri.com/generated/batch">
+
+    <types>
+        <xs:schema targetNamespace="http://www.antazri.com/generated/batch" elementFormDefault="qualified" attributeFormDefault="qualified">
+            <xs:include schemaLocation="../xsd/book.xsd" />
+            <xs:include schemaLocation="../xsd/loan.xsd" />
+            <xs:include schemaLocation="../xsd/member.xsd" />
+            <xs:include schemaLocation="../xsd/fault.xsd" />
+
+            <!-- Déclaration des objets envoyés/retournés via HTTP -->
+            <xs:element name="doReminderRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="doReminderResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loans" type="batch:loan" minOccurs="0" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="exceptionFault">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="fault" type="batch:fault" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:schema>
+    </types>
+
+    <!-- XML des entrées et sorties -->
+    <message name="doReminder">
+        <part name="parameters" element="batch:doReminderRequest" />
+    </message>
+    <message name="doReminderResult">
+        <part name="return" element="batch:doReminderResponse" />
+    </message>
+    <message name="ReminderException">
+        <part name="fault" element="batch:exceptionFault" />
+    </message>
+
+    <!-- Définition des méthodes -->
+    <portType name="batchPort">
+        <operation name="doReminder">
+            <input message="batch:doReminder" />
+            <output message="batch:doReminderResult" />
+            <fault name="fault" message="batch:ReminderException" />
+        </operation>
+    </portType>
+
+    <!-- Encapsulation des méthodes dans un protocole -->
+    <binding name="batchBinding" type="batch:batchPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="doReminder">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/batch/#doReminder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="fault">
+                <soap:fault name="fault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="ReminderServiceEndPoint">
+        <port name="batchPort" binding="batch:batchBinding">
+            <soap:address location="http://localhost:8090/webservice/ws/batch"/>
+        </port>
+    </service>
+
+</definitions>
