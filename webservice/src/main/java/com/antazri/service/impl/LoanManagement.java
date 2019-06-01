@@ -310,7 +310,7 @@ public class LoanManagement implements LoanPort {
         try {
             com.antazri.model.bean.Loan vLoanDatabase = convertPropertiesToDatabase(
                     vConverterToDatabase.toConvert(parameters.getLoan(), loanBo.findById(parameters.getLoan().getId())), parameters.getLoan());
-            vLoanDatabase = loanBo.extendLoan(vLoanDatabase);
+            vLoanDatabase = loanBo.extendLoan(vLoanDatabase, parameters.getExtension());
             vExtendLoanResponse.setLoan(
                     convertPropertiesToWebService(
                             vConverterToWebService.toConvert(vLoanDatabase, new Loan()), vLoanDatabase));
@@ -320,6 +320,20 @@ public class LoanManagement implements LoanPort {
         }
 
         return vExtendLoanResponse;
+    }
+
+    /**
+     * La méthode implémente le service permettant de récupérer le nombre maximum de jours/semaines
+     * configuré pour étendre un prêt
+     * @param parameters
+     * @return
+     */
+    @Override
+    public GetMaximumExtensionResponse getMaximumExtension(GetMaximumExtensionRequest parameters) {
+        GetMaximumExtensionResponse vGetMaximumExtensionResponse = new GetMaximumExtensionResponse();
+
+        vGetMaximumExtensionResponse.setExtension(loanBo.getMaximumExtension());
+        return vGetMaximumExtensionResponse;
     }
 
     private ExceptionFault setConvertExceptionFault(com.antazri.exception.ConvertException pE) {

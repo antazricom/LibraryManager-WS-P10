@@ -11,6 +11,7 @@
             <xs:include schemaLocation="../xsd/book.xsd" />
             <xs:include schemaLocation="../xsd/member.xsd" />
             <xs:include schemaLocation="../xsd/fault.xsd" />
+            <xs:include schemaLocation="../xsd/extension.xsd" />
 
             <!-- Déclaration des objets envoyés/retournés via HTTP -->
             <xs:element name="findByIdRequest">
@@ -144,6 +145,7 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="loan" type="loan:loan" />
+                        <xs:element name="extension" type="xs:int" />
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -152,6 +154,21 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="loan" type="loan:loan" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getMaximumExtensionRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="getMaximumExtensionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="extension" type="xs:int" />
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -254,6 +271,12 @@
     <message name="extendLoanResult">
         <part name="return" element="loan:extendLoanResponse" />
     </message>
+    <message name="getMaximumExtension">
+        <part name="parameters" element="loan:getMaximumExtensionRequest" />
+    </message>
+    <message name="getMaximumExtensionResult">
+        <part name="return" element="loan:getMaximumExtensionResponse" />
+    </message>
     <message name="getStatus">
         <part name="parameters" element="loan:getStatusRequest" />
     </message>
@@ -324,6 +347,10 @@
             <output message="loan:extendLoanResult" />
             <fault name="extendFault" message="loan:ExtendException" />
             <fault name="fault" message="loan:ConvertException" />
+        </operation>
+        <operation name="getMaximumExtension">
+            <input message="loan:getMaximumExtension" />
+            <output message="loan:getMaximumExtensionResult" />
         </operation>
         <operation name="getStatus">
             <input message="loan:getStatus" />
@@ -453,6 +480,15 @@
             <fault name="fault">
                 <soap:fault name="fault" use="literal" />
             </fault>
+        </operation>
+        <operation name="getMaximumExtension">
+            <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#getMaximumExtension"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
         </operation>
         <operation name="getStatus">
             <soap:operation soapAction="http://localhost:8090/webservice/ws/loan/#getStatus"/>

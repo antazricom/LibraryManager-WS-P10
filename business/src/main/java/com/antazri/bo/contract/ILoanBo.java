@@ -12,7 +12,8 @@ public interface ILoanBo {
     List<Loan> findByMember(Member pMember);
     List<Loan> findByBook(Book pBook);
     int countLoansByBook(Book pBook);
-    Loan extendLoan(Loan pLoan);
+    Loan extendLoan(Loan pLoan, int pExtension);
+    int getMaximumExtension();
     Loan returnLoan(Loan pLoan);
     List<Loan> findAll();
     List<Loan> findLateLoan();

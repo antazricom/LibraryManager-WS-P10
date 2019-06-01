@@ -125,13 +125,24 @@ public class LoanBo implements ILoanBo {
      */
     @Transactional
     @Override
-    public Loan extendLoan(Loan pLoan) {
+    public Loan extendLoan(Loan pLoan, int pExtension) {
         dateExtension = new DateExtension();
-        pLoan.setDateEnd(dateExtension.extendEndDate(pLoan.getDateEnd()));
-        pLoan.setDateReturn(dateExtension.extendEndDate(pLoan.getDateReturn()));
+        pLoan.setDateEnd(dateExtension.extendEndDate(pLoan.getDateEnd(), pExtension));
+        pLoan.setDateReturn(dateExtension.extendEndDate(pLoan.getDateReturn(), pExtension));
         pLoan.setExtended(true);
 
         return loanDao.update(pLoan);
+    }
+
+    /**
+     * Retourne le nombre maximal de jours/semaines configuré pour étendr ele prêt
+     * @return un Integer (spécifiant dans la fichier de configuration de couche Business)
+     */
+    @Transactional
+    @Override
+    public int getMaximumExtension() {
+        dateExtension = new DateExtension();
+        return dateExtension.getMaximumExtension();
     }
 
     /**

@@ -4,5 +4,6 @@ import java.util.Date;
 
 public interface IDateExtension {
 
-    Date extendEndDate(Date pOriginalDate);
+    public Date extendEndDate(Date pOriginalDate, int pExtension);
+    public int getMaximumExtension();
 }
