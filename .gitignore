@@ -1,0 +1,11 @@
+.gitignore
+.idea/dataSources.local.xml
+.idea/workspace.xml
+business/target/
+consumer/target/
+local_history.patch
+model/target/
+security/target/
+technical/target/
+webservice/src/main/java/com/antazri/generated/
+webservice/target/

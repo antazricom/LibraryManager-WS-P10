@@ -35,6 +35,9 @@ public class Member {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Column(name = "status", nullable = false)
+    private String status;
+
     @OneToMany(mappedBy = "member",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Loan> loans;
@@ -93,6 +96,14 @@ public class Member {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<Loan> getLoans() {
