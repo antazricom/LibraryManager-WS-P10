@@ -194,4 +194,23 @@ public class LoanBo implements ILoanBo {
     public void delete(Loan pLoan) {
         loanDao.delete(pLoan);
     }
+
+    /**
+     * La méthode filtre les Loan encore en cours générés pour un Book
+     * @param pBook est un objet {@link com.antazri.model.bean.Book} permettant de retrouver les objets
+     *                {@link com.antazri.model.bean.Loan} liés
+     * @return une List d'objets (Hibernate) {@link com.antazri.model.bean.Loan}
+     */
+    @Override
+    public List<Loan> findRunningLoansByBook(Book pBook) {
+        List<Loan> loans = new ArrayList<>();
+
+        for (Loan loan : loanDao.findByBook(pBook)) {
+            if (!loan.isReturned()) {
+                loans.add(loan);
+            }
+        }
+
+        return loans;
+    }
 }

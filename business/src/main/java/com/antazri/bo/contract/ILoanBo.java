@@ -20,4 +20,5 @@ public interface ILoanBo {
     Loan add(Loan pLoan);
     Loan update(Loan pLoan);
     void delete(Loan pLoan);
+    List<Loan> findRunningLoansByBook(Book pBook);
 }

@@ -277,11 +277,13 @@ public class BookManagement implements BookPort {
         List<Loan> loansByBook;
 
         try {
-            loansByBook = loanBo.findByBook(vGenericConverterForDatabase.toConvert(parameters.getBook(), new com.antazri.model.bean.Book()));
+            loansByBook = loanBo.findRunningLoansByBook(vGenericConverterForDatabase.toConvert(parameters.getBook(), new com.antazri.model.bean.Book()));
         } catch (com.antazri.exception.ConvertException pE) {
             logger.error(ErrorMessage.getErrorMessages().getString("error.message.mapper.convert") + " (convertPropertiesToWebService)");
             throw new BookException(pE.getMessage(), setExceptionFault(pE));
         }
+
+        logger.info("Taille de la liste : " + loansByBook.size());
 
         vGetAvailableCopiesResponse.setCopies(parameters.getBook().getCopies() - loansByBook.size());
 
