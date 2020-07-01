@@ -45,7 +45,7 @@
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
         <cxf.version>3.2.7</cxf.version>
-        <log4j.version>2.11.1</log4j.version>
+        <log4j.version>2.13.3</log4j.version>
         <postgresql.version>42.2.5</postgresql.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <joda.version>2.10.1</joda.version>
